@@ -1,0 +1,147 @@
+.dashboard-container {
+  padding: 0;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .page-subtitle {
+    color: #666;
+    margin-bottom: 0;
+  }
+}
+
+.stat-card {
+  text-align: center;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+
+    mat-icon {
+      color: white;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    &.bg-primary { background-color: #3f51b5; }
+    &.bg-success { background-color: #4caf50; }
+    &.bg-info { background-color: #2196f3; }
+    &.bg-warning { background-color: #ff9800; }
+    &.bg-danger { background-color: #f44336; }
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .stat-label {
+    color: #666;
+    margin-bottom: 0;
+    font-weight: 500;
+  }
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  mat-progress-bar {
+    flex: 1;
+  }
+
+  .progress-value {
+    font-weight: 600;
+    color: #3f51b5;
+    min-width: 40px;
+    text-align: right;
+  }
+}
+
+.activity-list {
+  .activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .activity-content {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        color: #333;
+        margin-bottom: 0.25rem;
+      }
+
+      span {
+        color: #666;
+        font-size: 0.9rem;
+      }
+    }
+
+    .activity-time {
+      color: #999;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .dashboard-header {
+    .page-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .stat-card {
+    .stat-value {
+      font-size: 1.5rem;
+    }
+  }
+
+  .progress-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+
+    .progress-value {
+      text-align: left;
+    }
+  }
+
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
