@@ -1,0 +1,219 @@
+.chantier-detail-container {
+  padding: 1.5rem;
+  
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      
+      .back-button {
+        margin-right: 1rem;
+      }
+      
+      .page-title {
+        font-size: 1.8rem;
+        font-weight: 500;
+        margin: 0;
+        color: #333;
+      }
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+  
+  .loading-container, .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    
+    p {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #666;
+    }
+    
+    button {
+      margin-top: 1rem;
+    }
+  }
+  
+  .error-container {
+    mat-icon {
+      font-size: 3rem;
+      height: 3rem;
+      width: 3rem;
+    }
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+    
+    .col-lg-8, .col-lg-4, .col-12 {
+      padding-right: 0.75rem;
+      padding-left: 0.75rem;
+    }
+    
+    .col-lg-8 {
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+      
+      @media (max-width: 992px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    .col-lg-4 {
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+      
+      @media (max-width: 992px) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-top: 1.5rem;
+      }
+    }
+    
+    .col-12 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  
+  .status-in-progress {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+  }
+  
+  .status-completed {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+  }
+  
+  .status-planned {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: #ff9800;
+  }
+  
+  .status-cancelled {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+  }
+  
+  .info-section {
+    margin-bottom: 1.5rem;
+    
+    h3 {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+    
+    .info-item {
+      display: flex;
+      margin-bottom: 0.75rem;
+      
+      .info-label {
+        min-width: 120px;
+        font-weight: 500;
+        color: #666;
+      }
+      
+      .info-value {
+        flex: 1;
+      }
+    }
+    
+    .description {
+      white-space: pre-line;
+      color: #666;
+    }
+  }
+  
+  .budget-info {
+    .budget-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      
+      .budget-label {
+        font-weight: 500;
+        color: #666;
+      }
+      
+      .budget-value {
+        font-weight: 500;
+      }
+    }
+    
+    .budget-progress {
+      margin-top: 1.5rem;
+      
+      span {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      
+      .progress-value {
+        text-align: right;
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  
+  .no-budget-message, .no-factures-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    
+    mat-icon {
+      font-size: 2rem;
+      height: 2rem;
+      width: 2rem;
+      color: #999;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      color: #999;
+      font-size: 1rem;
+    }
+  }
+  
+  .factures-list {
+    table {
+      width: 100%;
+    }
+  }
+}
+

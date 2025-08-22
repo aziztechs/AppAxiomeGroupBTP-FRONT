@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier le chantier' : 'Nouveau chantier' }}</h2>
+
+<form [formGroup]="chantierForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom du chantier</mat-label>
+        <input matInput formControlName="nom" placeholder="Nom du chantier" required>
+        <mat-error *ngIf="chantierForm.get('nom')?.hasError('required')">
+          Le nom du chantier est requis
+        </mat-error>
+        <mat-error *ngIf="chantierForm.get('nom')?.hasError('maxlength')">
+          Le nom ne doit pas dépasser 100 caractères
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" placeholder="Description du chantier" rows="3"></textarea>
+        <mat-error *ngIf="chantierForm.get('description')?.hasError('maxlength')">
+          La description ne doit pas dépasser 500 caractères
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="adresse" placeholder="Adresse du chantier" required>
+        <mat-error *ngIf="chantierForm.get('adresse')?.hasError('required')">
+          L'adresse est requise
+        </mat-error>
+        <mat-error *ngIf="chantierForm.get('adresse')?.hasError('maxlength')">
+          L'adresse ne doit pas dépasser 200 caractères
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row date-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Date de début</mat-label>
+        <input matInput [matDatepicker]="startPicker" formControlName="dateDebut" required>
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+        <mat-error *ngIf="chantierForm.get('dateDebut')?.hasError('required')">
+          La date de début est requise
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date de fin</mat-label>
+        <input matInput [matDatepicker]="endPicker" formControlName="dateFin" required>
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+        <mat-error *ngIf="chantierForm.get('dateFin')?.hasError('required')">
+          La date de fin est requise
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Statut</mat-label>
+        <mat-select formControlName="statut" required>
+          <mat-option *ngFor="let statut of statuts" [value]="statut">
+            {{ statut }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="chantierForm.get('statut')?.hasError('required')">
+          Le statut est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Responsable</mat-label>
+        <mat-select formControlName="responsableId">
+          <mat-option [value]="null">Aucun</mat-option>
+          <mat-option *ngFor="let responsable of responsables" [value]="responsable.id">
+            {{ responsable.prenom }} {{ responsable.nom }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Budget</mat-label>
+        <mat-select formControlName="budgetId">
+          <mat-option [value]="null">Aucun</mat-option>
+          <mat-option *ngFor="let budget of budgets" [value]="budget.id">
+            {{ budget.nom }} - {{ budget.montant | number }} €
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="onCancel()" [disabled]="loading">Annuler</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="chantierForm.invalid || loading">
+      <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      <span *ngIf="!loading">{{ isEditMode ? 'Mettre à jour' : 'Créer' }}</span>
+    </button>
+  </mat-dialog-actions>
+</form>
+

@@ -1,33 +1,58 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { AuthService } from './services/auth.service';
+import { UtilisateurResponse } from './models/auth.model';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  standalone: true,
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class AppComponent implements OnInit {
+  title = 'Axiome Group BTP';
+  currentUser: UtilisateurResponse | null = null;
+  isLoggedIn = false;
+  isSidenavOpen = true;
+  currentRoute = '';
 
-  stats = {
-    totalChantiers: 24,
-    chantiersActifs: 8,
-    chantiersTermines: 12,
-    budgetTotal: 1250000,
-    incidentsOuverts: 3
-  };
-
-  recentActivities = [
-    { action: 'Nouveau chantier créé', user: 'Jean Dupont', time: '2 min ago' },
-    { action: 'Document uploadé', user: 'Marie Martin', time: '5 min ago' },
-    { action: 'Incident résolu', user: 'Pierre Durand', time: '10 min ago' }
-  ];
-
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    // Observer les changements d'authentification
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.isLoggedIn = !!user;
+    });
+
+    // Observer les changements de route
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.currentRoute = event.url;
+      
+      // Fermer le sidenav sur mobile lors de la navigation
+      if (window.innerWidth < 992) {
+        this.isSidenavOpen = false;
+      }
+    });
   }
 
-  getProgressValue(completed: number, total: number): number {
-    return total > 0 ? (completed / total) * 100 : 0;
+  toggleSidenav(): void {
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  isActive(route: string): boolean {
+    return this.currentRoute.startsWith(route);
   }
 }
+
