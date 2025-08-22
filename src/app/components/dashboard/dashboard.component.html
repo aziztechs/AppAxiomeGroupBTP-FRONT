@@ -5,111 +5,130 @@
     <p class="page-subtitle">Vue d'ensemble de votre activité</p>
   </div>
 
-  <!-- Statistics Cards -->
-  <div class="row g-3 mb-4">
-    <!-- Total Chantiers -->
-    <div class="col-xl-2 col-md-4 col-sm-6">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon bg-primary">
-            <mat-icon>construction</mat-icon>
-          </div>
-          <h3 class="stat-value">{{ stats.totalChantiers }}</h3>
-          <p class="stat-label">Total Chantiers</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Chantiers Actifs -->
-    <div class="col-xl-2 col-md-4 col-sm-6">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon bg-success">
-            <mat-icon>play_arrow</mat-icon>
-          </div>
-          <h3 class="stat-value">{{ stats.chantiersActifs }}</h3>
-          <p class="stat-label">Chantiers Actifs</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Chantiers Terminés -->
-    <div class="col-xl-2 col-md-4 col-sm-6">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon bg-info">
-            <mat-icon>check_circle</mat-icon>
-          </div>
-          <h3 class="stat-value">{{ stats.chantiersTermines }}</h3>
-          <p class="stat-label">Chantiers Terminés</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Budget Total -->
-    <div class="col-xl-2 col-md-4 col-sm-6">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon bg-warning">
-            <mat-icon>euro</mat-icon>
-          </div>
-          <h3 class="stat-value">{{ stats.budgetTotal | number }} €</h3>
-          <p class="stat-label">Budget Total</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <!-- Incidents Ouverts -->
-    <div class="col-xl-2 col-md-4 col-sm-6">
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-icon bg-danger">
-            <mat-icon>warning</mat-icon>
-          </div>
-          <h3 class="stat-value">{{ stats.incidentsOuverts }}</h3>
-          <p class="stat-label">Incidents Ouverts</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Chargement des données...</p>
   </div>
 
-  <!-- Progress Section -->
-  <div class="row g-3 mb-4">
-    <div class="col-lg-6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Progression des chantiers</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="progress-item">
-            <span>Chantiers terminés</span>
-            <mat-progress-bar
-              mode="determinate"
-              [value]="getProgressValue(stats.chantiersTermines, stats.totalChantiers)">
-            </mat-progress-bar>
-            <span class="progress-value">{{ getProgressValue(stats.chantiersTermines, stats.totalChantiers) | number:'1.0-0' }}%</span>
-          </div>
-        </mat-card-content>
-      </mat-card>
+  <!-- Error Message -->
+  <div class="error-container" *ngIf="error">
+    <mat-icon color="warn">error</mat-icon>
+    <p>Impossible de charger les données. Veuillez réessayer plus tard.</p>
+    <button mat-raised-button color="primary" (click)="loadDashboardData()">Réessayer</button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error">
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+      <!-- Total Chantiers -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-icon bg-primary">
+              <mat-icon>construction</mat-icon>
+            </div>
+            <h3 class="stat-value">{{ stats.totalChantiers }}</h3>
+            <p class="stat-label">Total Chantiers</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Chantiers Actifs -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-icon bg-success">
+              <mat-icon>play_arrow</mat-icon>
+            </div>
+            <h3 class="stat-value">{{ stats.chantiersActifs }}</h3>
+            <p class="stat-label">Chantiers Actifs</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Chantiers Terminés -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-icon bg-info">
+              <mat-icon>check_circle</mat-icon>
+            </div>
+            <h3 class="stat-value">{{ stats.chantiersTermines }}</h3>
+            <p class="stat-label">Chantiers Terminés</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Budget Total -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-icon bg-warning">
+              <mat-icon>euro</mat-icon>
+            </div>
+            <h3 class="stat-value">{{ stats.budgetTotal | number }} €</h3>
+            <p class="stat-label">Budget Total</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Incidents Ouverts -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-icon bg-danger">
+              <mat-icon>warning</mat-icon>
+            </div>
+            <h3 class="stat-value">{{ stats.incidentsOuverts }}</h3>
+            <p class="stat-label">Incidents Ouverts</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
 
-    <div class="col-lg-6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Activité récente</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="activity-list">
-            <div *ngFor="let activity of recentActivities" class="activity-item">
-              <div class="activity-content">
-                <strong>{{ activity.action }}</strong>
-                <span>par {{ activity.user }}</span>
-              </div>
-              <span class="activity-time">{{ activity.time }}</span>
+    <!-- Progress Section -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Progression des chantiers</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="progress-item">
+              <span>Chantiers terminés</span>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="getProgressValue(stats.chantiersTermines, stats.totalChantiers)">
+              </mat-progress-bar>
+              <span class="progress-value">{{ getProgressValue(stats.chantiersTermines, stats.totalChantiers) | number:'1.0-0' }}%</span>
             </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="col-lg-6">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Activité récente</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="activity-list">
+              <div *ngIf="recentActivities.length === 0" class="no-data-message">
+                <p>Aucune activité récente à afficher</p>
+              </div>
+              <div *ngFor="let activity of recentActivities" class="activity-item">
+                <div class="activity-content">
+                  <strong>{{ activity.action }}</strong>
+                  <span>par {{ activity.user }}</span>
+                </div>
+                <span class="activity-time">{{ activity.time }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

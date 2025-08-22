@@ -1,27 +1,70 @@
-# AppAxiomeGroupBTPFRONT
+# Axiome Group BTP - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.20.
+Ce projet est le frontend de l'application de gestion de chantiers pour Axiome Group BTP. Il est développé en Angular et consomme l'API backend du projet AppAxiomeGroupBTP-BACK.
 
-## Development server
+## Fonctionnalités
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Authentification et gestion des utilisateurs
+- Tableau de bord avec statistiques et activités récentes
+- Gestion des chantiers (création, modification, suppression, visualisation)
+- Gestion des budgets et factures
+- Rapports et statistiques
 
-## Code scaffolding
+## Prérequis
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js (v14+)
+- npm ou yarn
+- Angular CLI
 
-## Build
+## Installation
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Cloner le dépôt :
+```bash
+git clone https://github.com/aziztechs/AppAxiomeGroupBTP-FRONT.git
+cd AppAxiomeGroupBTP-FRONT
+```
 
-## Running unit tests
+2. Installer les dépendances :
+```bash
+npm install
+# ou
+yarn install
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+3. Configurer l'environnement :
+   - Modifier les fichiers dans `src/environments` pour pointer vers votre API backend
 
-## Running end-to-end tests
+## Développement
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Pour lancer le serveur de développement :
+```bash
+ng serve
+```
 
-## Further help
+L'application sera accessible à l'adresse `http://localhost:4200/`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Production
+
+Pour construire l'application pour la production :
+```bash
+ng build --prod
+```
+
+Les fichiers générés seront stockés dans le répertoire `dist/`.
+
+## Structure du projet
+
+- `src/app/components` : Composants de l'application
+- `src/app/services` : Services pour la communication avec l'API
+- `src/app/models` : Interfaces TypeScript pour les modèles de données
+- `src/app/guards` : Guards pour la protection des routes
+- `src/app/interceptors` : Intercepteurs HTTP pour l'authentification
+
+## Connexion avec le backend
+
+Cette application frontend est conçue pour fonctionner avec l'API backend du projet AppAxiomeGroupBTP-BACK. Assurez-vous que le backend est correctement configuré et en cours d'exécution avant d'utiliser cette application.
+
+## Licence
+
+Ce projet est sous licence privée et appartient à Axiome Group BTP.
+

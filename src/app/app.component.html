@@ -1,97 +1,83 @@
-<!-- Header -->
-<mat-toolbar color="primary" class="header-toolbar">
-  <button mat-icon-button (click)="toggleSidebar()" class="menu-button">
-    <mat-icon>menu</mat-icon>
-  </button>
-  
-  <span class="app-title">AppAxiomeGroupBTP</span>
-  
-  <span class="spacer"></span>
-  
-  <!-- User Menu -->
-  <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu">
-    <mat-icon>account_circle</mat-icon>
-    Admin
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
-  
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>person</mat-icon>
-      <span>Profil</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>settings</mat-icon>
-      <span>Paramètres</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item>
-      <mat-icon>logout</mat-icon>
-      <span>Déconnexion</span>
-    </button>
-  </mat-menu>
-</mat-toolbar>
-
-<!-- Main Content -->
-<div class="main-container">
-  <!-- Sidebar -->
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen" class="app-sidenav">
+<div class="app-container">
+  <!-- Afficher le layout principal uniquement si l'utilisateur est connecté -->
+  <ng-container *ngIf="isLoggedIn; else loginTemplate">
+    <mat-toolbar color="primary" class="app-toolbar">
+      <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="app-title">{{ title }}</span>
+      <span class="spacer"></span>
       
-      <!-- Navigation Menu -->
-      <mat-nav-list>
-        <!-- Dashboard -->
-        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">dashboard</mat-icon>
-          <span class="nav-label">Tableau de bord</span>
-        </a>
+      <!-- Menu utilisateur -->
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+        <mat-icon>person</mat-icon>
+        <span class="user-name">{{ currentUser?.prenom }} {{ currentUser?.nom }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>account_circle</mat-icon>
+          <span>Mon profil</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Déconnexion</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
 
-        <!-- Chantiers -->
-        <a mat-list-item routerLink="/chantiers" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">construction</mat-icon>
-          <span class="nav-label">Chantiers</span>
-        </a>
-
-        <!-- Utilisateurs -->
-        <a mat-list-item routerLink="/utilisateurs" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">people</mat-icon>
-          <span class="nav-label">Utilisateurs</span>
-        </a>
-
-        <!-- Documents -->
-        <a mat-list-item routerLink="/documents" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">description</mat-icon>
-          <span class="nav-label">Documents</span>
-        </a>
-
-        <!-- Reporting -->
-        <a mat-list-item routerLink="/reporting" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">analytics</mat-icon>
-          <span class="nav-label">Reporting</span>
-        </a>
-
-        <!-- Incidents -->
-        <a mat-list-item routerLink="/incidents" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">warning</mat-icon>
-          <span class="nav-label">Incidents</span>
-        </a>
-
-        <mat-divider></mat-divider>
-
-        <!-- Paramètres -->
-        <a mat-list-item routerLink="/parametres" routerLinkActive="active-link">
-          <mat-icon class="nav-icon">settings</mat-icon>
-          <span class="nav-label">Paramètres</span>
-        </a>
-      </mat-nav-list>
-
-    </mat-sidenav>
-
-    <!-- Main Content Area -->
-    <mat-sidenav-content class="main-content">
-      <div class="content-wrapper">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav [opened]="isSidenavOpen" [mode]="'side'" class="sidenav">
+        <div class="sidenav-header">
+          <div class="logo-container">
+            <img src="assets/logo.png" alt="Logo" class="logo">
+          </div>
+        </div>
+        
+        <mat-nav-list>
+          <a mat-list-item routerLink="/dashboard" [class.active]="isActive('/dashboard')">
+            <mat-icon matListItemIcon>dashboard</mat-icon>
+            <span matListItemTitle>Tableau de bord</span>
+          </a>
+          
+          <a mat-list-item routerLink="/chantiers" [class.active]="isActive('/chantiers')">
+            <mat-icon matListItemIcon>construction</mat-icon>
+            <span matListItemTitle>Chantiers</span>
+          </a>
+          
+          <a mat-list-item routerLink="/budgets" [class.active]="isActive('/budgets')">
+            <mat-icon matListItemIcon>account_balance</mat-icon>
+            <span matListItemTitle>Budgets</span>
+          </a>
+          
+          <a mat-list-item routerLink="/factures" [class.active]="isActive('/factures')">
+            <mat-icon matListItemIcon>receipt</mat-icon>
+            <span matListItemTitle>Factures</span>
+          </a>
+          
+          <a mat-list-item routerLink="/utilisateurs" [class.active]="isActive('/utilisateurs')">
+            <mat-icon matListItemIcon>people</mat-icon>
+            <span matListItemTitle>Utilisateurs</span>
+          </a>
+          
+          <a mat-list-item routerLink="/rapports" [class.active]="isActive('/rapports')">
+            <mat-icon matListItemIcon>assessment</mat-icon>
+            <span matListItemTitle>Rapports</span>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+      
+      <mat-sidenav-content class="sidenav-content">
+        <div class="content-container">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-container>
+  
+  <!-- Template pour la page de login -->
+  <ng-template #loginTemplate>
+    <router-outlet></router-outlet>
+  </ng-template>
 </div>
+

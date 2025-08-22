@@ -1,0 +1,53 @@
+<div class="profile-container" *ngIf="currentUser">
+  <mat-card>
+    <mat-card-header>
+      <div mat-card-avatar class="profile-avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+      <mat-card-title>{{ currentUser.prenom }} {{ currentUser.nom }}</mat-card-title>
+      <mat-card-subtitle>{{ currentUser.email }}</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="profile-info">
+        <h3>Informations personnelles</h3>
+        
+        <div class="info-item">
+          <span class="info-label">Nom complet:</span>
+          <span class="info-value">{{ currentUser.prenom }} {{ currentUser.nom }}</span>
+        </div>
+        
+        <div class="info-item">
+          <span class="info-label">Email:</span>
+          <span class="info-value">{{ currentUser.email }}</span>
+        </div>
+        
+        <div class="info-item">
+          <span class="info-label">Statut:</span>
+          <span class="info-value">{{ currentUser.statut }}</span>
+        </div>
+        
+        <div class="info-item">
+          <span class="info-label">Rôles:</span>
+          <div class="roles-list">
+            <mat-chip-list>
+              <mat-chip *ngFor="let role of currentUser.roles" color="primary" selected>{{ role }}</mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="profile-container" *ngIf="!currentUser">
+  <mat-card>
+    <mat-card-content>
+      <div class="no-user-message">
+        <mat-icon>error</mat-icon>
+        <p>Aucun utilisateur connecté. Veuillez vous <a routerLink="/login">connecter</a>.</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

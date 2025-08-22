@@ -1,0 +1,30 @@
+.form-row {
+  margin-bottom: 1rem;
+  
+  &.date-row {
+    display: flex;
+    gap: 1rem;
+    
+    mat-form-field {
+      flex: 1;
+    }
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  padding: 1rem 0;
+  
+  button {
+    min-width: 100px;
+  }
+}
+
+button mat-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
